@@ -17,6 +17,8 @@ xData = []
 yData = []
 zData = []
 
+#TODO: Add a writer to save my files
+
 
 def getInput():
     #Asking user what parts of their data they'd like to use
@@ -157,6 +159,8 @@ def graphTheInput(inputs, numInputs):
             elif graphinputs[1] == 2:
                 if graphinputs[2] == 0:
                     twoDimensionalLine(numInputs)
+                elif graphinputs[2] == 1:
+                    saveTwoDimLine(numInputs)
         elif graphinputs[0] == 3:
             if graphinputs[1] == 1:
                 if graphinputs[2] == 0:
@@ -203,7 +207,7 @@ def saveTwoDimScatter(numInputs):
     ani = animation.FuncAnimation(fig, animate, repeat=True,
                                     frames=max(len(x) for x in xData), interval=50)
 
-    ani.save('scatter.mp4', writer=writer) #This line is how we save it.
+    ani.save('twoDimScatter.mp4', writer=writer) #This line is how we save it.
     plt.show()
 
 def twoDimensionalLine(numInputs):
@@ -221,7 +225,24 @@ def twoDimensionalLine(numInputs):
 
     ani = FuncAnimation(fig, update, frames=range(max(len(x) for x in xData)), blit=False)
 
+    plt.show()
 
+def saveTwoDimLine(numInputs):
+    fig, ax = plt.subplots(figsize = (12,12))
+    ax.set_xlim(min(min(x) for x in xData), max(max(x) for x in xData))
+    ax.set_ylim(min(min(y) for y in yData), max(max(y) for y in yData))
+
+    lines = [ax.plot([], [])[0] for _ in range(numInputs)]
+
+    def update(frame):
+        for n in range(numInputs):
+            lines[n].set_data(xData[n][:frame], yData[n][:frame])
+        return lines
+
+
+    ani = FuncAnimation(fig, update, frames=range(max(len(x) for x in xData)), blit=False)
+    
+    ani.save('twoDimLine.mp4', writer=writer)
     plt.show()
 
 def threeDimensionalScatter(numInputs):
