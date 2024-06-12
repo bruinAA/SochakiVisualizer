@@ -150,14 +150,20 @@ def graphTheInput(inputs, numInputs):
     def switch(graphinputs):
         if graphinputs[0] == 2:
             if graphinputs[1] == 1:
-                twoDimensionalScatter(numInputs)
+                if graphinputs[2] == 0:
+                    twoDimensionalScatter(numInputs)
+                elif graphinputs[2] == 1:
+                    saveTwoDimScatter(numInputs)
             elif graphinputs[1] == 2:
-                twoDimensionalLine(numInputs)
+                if graphinputs[2] == 0:
+                    twoDimensionalLine(numInputs)
         elif graphinputs[0] == 3:
             if graphinputs[1] == 1:
-                threeDimensionalScatter(numInputs)
+                if graphinputs[2] == 0:
+                    threeDimensionalScatter(numInputs)
             elif graphinputs[1] == 2:
-                threeDimensionalLine(numInputs)
+                if graphinputs[2] == 0:
+                    threeDimensionalLine(numInputs)
         
     switch(inputs)
 #TODO add graphing software to file and complete graphinput().
@@ -178,7 +184,26 @@ def twoDimensionalScatter(numInputs):
     ani = animation.FuncAnimation(fig, animate, repeat=True,
                                     frames=max(len(x) for x in xData), interval=50)
 
-    # ani.save('scatter.mp4', writer=writer) This line is how we save it.
+    plt.show()
+
+def saveTwoDimScatter(numInputs):
+    fig, ax = plt.subplots(figsize = (12,12))
+
+    ax.set_xlim(min(min(x) for x in xData), max(max(x) for x in xData))
+    ax.set_ylim(min(min(y) for y in yData), max(max(y) for y in yData))
+
+    scatterplots = [ax.scatter(xData[j][0], yData[j][0]) for j in range(numInputs)]
+
+    def animate(i):
+        for n in range(numInputs):
+            scatterplots[n].set_offsets((xData[n][i], yData[n][i]))
+
+        return scatterplots,
+
+    ani = animation.FuncAnimation(fig, animate, repeat=True,
+                                    frames=max(len(x) for x in xData), interval=50)
+
+    ani.save('scatter.mp4', writer=writer) #This line is how we save it.
     plt.show()
 
 def twoDimensionalLine(numInputs):
