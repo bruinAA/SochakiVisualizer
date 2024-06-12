@@ -5,7 +5,7 @@ from matplotlib.animation import FuncAnimation
 from matplotlib.animation import FFMpegWriter
 import matplotlib.animation as animation
 
-
+#comment test
 #Path to data
 filePath = "c:/Users/Bruin/Downloads/SampleData/"
 
