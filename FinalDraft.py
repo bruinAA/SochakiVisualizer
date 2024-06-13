@@ -12,6 +12,9 @@ filePath = "c:/Users/Bruin/Downloads/SampleData/"
 #Path to ffmpeg writer
 plt.rcParams["animation.ffmpeg_path"] = "c:/Users/Bruin/Downloads/ffmpeg/ffmpeg/bin/ffmpeg.exe"
 
+metadata = dict(title = "Movie", artist = "bruin")
+writer = FFMpegWriter(fps = 60, metadata = metadata)
+
 #Arrays to hold data
 xData = []
 yData = []
@@ -165,9 +168,13 @@ def graphTheInput(inputs, numInputs):
             if graphinputs[1] == 1:
                 if graphinputs[2] == 0:
                     threeDimensionalScatter(numInputs)
+                elif graphinputs[2] == 1:
+                    saveThreeDimScatter(numInputs)
             elif graphinputs[1] == 2:
                 if graphinputs[2] == 0:
                     threeDimensionalLine(numInputs)
+                elif graphinput[2] == 1:
+                    saveThreeDimLine(numInputs)
         
     switch(inputs)
 #TODO add graphing software to file and complete graphinput().
@@ -256,18 +263,33 @@ def threeDimensionalScatter(numInputs):
     scatters = [ax.scatter(xData[j][0], yData[j][0], zData[j][0]) for j in range(numInputs)]
 
     def animate(i):
-
         for n in range(numInputs):
             scatters[n]._offsets3d = (xData[n][i:i + 1], yData[n][i:i + 1], zData[n][i:i + 1])
-
         return scatters,
-
 
     ani = animation.FuncAnimation(fig, animate, repeat=True, frames=max(len(x) for x in xData), interval=50, save_count=len(xData[0]))
     plt.show()
 
+def saveThreeDimScatter(numInputs):
+    fig = plt.figure(figsize=(12,12))
+    ax = fig.add_subplot(111, projection='3d')
+
+    ax.set_xlim(min(min(x) for x in xData), max(max(x) for x in xData))
+    ax.set_ylim(min(min(y) for y in yData), max(max(y) for y in yData))
+    ax.set_zlim(min(min(z) for z in zData), max(max(z) for z in zData))
+
+    scatters = [ax.scatter(xData[j][0], yData[j][0], zData[j][0]) for j in range(numInputs)]
+
+    def animate(i):
+        for n in range(numInputs):
+            scatters[n]._offsets3d = (xData[n][i:i + 1], yData[n][i:i + 1], zData[n][i:i + 1])
+        return scatters,
+
+    ani = animation.FuncAnimation(fig, animate, repeat=True, frames=max(len(x) for x in xData), interval=50, save_count=len(xData[0]))
+    ani.save('threeDimScatter.mp4', writer=writer)
+    plt.show()
+
 def threeDimensionalLine(numInputs):
-    
     fig = plt.figure(figsize=(12, 12))
     ax = fig.add_subplot(111, projection="3d")
 
@@ -283,13 +305,28 @@ def threeDimensionalLine(numInputs):
             lines[n].set_3d_properties(zData[n][:frame])
         return lines
 
-
     ani = FuncAnimation(fig, update, frames=range(max(len(x) for x in xData)), blit=False)
-
-
     plt.show()
 
+def saveThreeDimLine(numInputs):
+    fig = plt.figure(figsize=(12, 12))
+    ax = fig.add_subplot(111, projection="3d")
 
+    ax.set_xlim(min(min(x) for x in xData), max(max(x) for x in xData))
+    ax.set_ylim(min(min(y) for y in yData), max(max(y) for y in yData))
+    ax.set_zlim(min(min(z) for z in zData), max(max(z) for z in zData))
+
+    lines = [ax.plot([], [], [])[0] for _ in range(numInputs)]
+
+    def update(frame):
+        for n in range(numInputs):
+            lines[n].set_data(xData[n][:frame], yData[n][:frame])
+            lines[n].set_3d_properties(zData[n][:frame])
+        return lines
+
+    ani = FuncAnimation(fig, update, frames=range(max(len(x) for x in xData)), blit=False)
+    ani.save('threeDimLine.mp4', writer=writer)
+    plt.show()
 
 def main():
    
