@@ -6,11 +6,11 @@ from matplotlib.animation import FFMpegWriter
 import matplotlib.animation as animation
 
 #comment test
-#Path to data
-filePath = "c:/Users/Bruin/Downloads/SampleData/"
+#Path to data - Replace with your file path
+filePath = "c:/Users/Bruin/Desktop/Projects/SochakiVisualizer/SampleData/"
 
-#Path to ffmpeg writer
-plt.rcParams["animation.ffmpeg_path"] = "c:/Users/Bruin/Downloads/ffmpeg/ffmpeg/bin/ffmpeg.exe"
+#Path to ffmpeg writer - Replace with your file path
+plt.rcParams["animation.ffmpeg_path"] = "c:/Users/Bruin/Desktop/Projects/SochakiVisualizer/ffmpeg/bin/ffmpeg.exe"
 
 metadata = dict(title = "Movie", artist = "bruin")
 writer = FFMpegWriter(fps = 60, metadata = metadata)
@@ -173,7 +173,7 @@ def graphTheInput(inputs, numInputs):
             elif graphinputs[1] == 2:
                 if graphinputs[2] == 0:
                     threeDimensionalLine(numInputs)
-                elif graphinput[2] == 1:
+                elif graphinputs[2] == 1:
                     saveThreeDimLine(numInputs)
         
     switch(inputs)
@@ -332,7 +332,7 @@ def main():
    
     numInputs = getInput() #Collect Input from user
     graphicalInput = getGraphicalInput() #Collect Information about what kind of graph they'd like
-    graphTheInput(graphicalInput, numInputs)
+    graphTheInput(graphicalInput, numInputs) #Graph the users data
 
 if __name__ == "__main__":
     main()
