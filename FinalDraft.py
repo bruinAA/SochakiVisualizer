@@ -5,7 +5,7 @@ from matplotlib.animation import FuncAnimation
 from matplotlib.animation import FFMpegWriter
 import matplotlib.animation as animation
 
-#comment test
+
 #Path to data - Replace with your file path
 filePath = "c:/Users/Bruin/Desktop/Projects/SochakiVisualizer/SampleData/"
 
@@ -20,7 +20,6 @@ xData = []
 yData = []
 zData = []
 
-#TODO: Add a writer to save my files
 
 
 def getInput():
@@ -177,7 +176,7 @@ def graphTheInput(inputs, numInputs):
                     saveThreeDimLine(numInputs)
         
     switch(inputs)
-#TODO add graphing software to file and complete graphinput().
+
 def twoDimensionalScatter(numInputs):
     fig, ax = plt.subplots(figsize = (12,12))
 
